@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-fa: 'Vazirmatn', 'Tahoma', system-ui, sans-serif;
+  --font-en: 'Inter', system-ui, sans-serif;
+
+  /* سبز نعنایی — تم اصلی نیوو کال (سلامت/غذا)، جدا از رنگ برند نیوو اصلی */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #0f7a57;
+  --color-brand-700: #0b5c42;
+
+  --color-ink-900: #14231d;
+  --color-ink-700: #3f544c;
+  --color-ink-500: #6b7d76;
+  --color-ink-300: #a8b6b0;
+
+  --color-paper: #f7f5f0;
+  --color-card: #ffffff;
+
+  --color-amber-500: #f59e0b;
+  --color-rose-500: #f43f5e;
+}
+
+html[dir='rtl'] body {
+  font-family: var(--font-fa);
+}
+html[dir='ltr'] body {
+  font-family: var(--font-en);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  touch-action: manipulation;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--color-paper);
+  color: var(--color-ink-900);
+  touch-action: manipulation;
+}
+
+/* رفع زوم خودکار سافاری iOS موقع فوکوس روی input زیر ۱۶px */
+@media (max-width: 767px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-ink-300); border-radius: 9px; }
