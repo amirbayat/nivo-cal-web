@@ -187,5 +187,6 @@ export const en: Dictionary = {
     callbackRefId: 'Reference code',
     callbackBackToDashboard: 'Back to dashboard',
     callbackRetry: 'Try again',
+    callbackReturnToApp: 'Return to app',
   },
 }

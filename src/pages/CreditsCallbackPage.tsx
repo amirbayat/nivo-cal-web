@@ -63,6 +63,14 @@ export function CreditsCallbackPage() {
             {t('credits.callbackRetry')}
           </Button>
         )}
+        {isFromApp && (
+          <a
+            href={returnToAppHref}
+            className="inline-flex h-13 w-full items-center justify-center rounded-2xl bg-brand-50 text-base font-semibold text-brand-700 transition-all duration-150 hover:bg-brand-100 active:scale-[0.98]"
+          >
+            {t('credits.callbackReturnToApp')}
+          </a>
+        )}
       </div>
     </div>
   )
