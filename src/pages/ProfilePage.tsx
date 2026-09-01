@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/auth.store'
 import { useLogout } from '@/queries/auth.queries'
 import { useCreditsBalance } from '@/queries/credits.queries'
+import { useFormatNumber } from '@/hooks/useFormatNumber'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
@@ -14,6 +15,7 @@ export function ProfilePage() {
   const user = useAuthStore(s => s.user)
   const logout = useLogout()
   const { data: creditsBalance } = useCreditsBalance()
+  const formatNumber = useFormatNumber()
 
   function handleLogout() {
     if (window.confirm(t('profile.logoutConfirm'))) logout.mutate()
@@ -44,7 +46,7 @@ export function ProfilePage() {
             <DiamondIcon className="h-4.5 w-4.5" />
           </span>
           <span className="flex-1 text-sm font-medium text-ink-900">{t('credits.currentBalance')}</span>
-          <span className="text-sm font-semibold text-ink-700">{creditsBalance?.credits ?? 0}</span>
+          <span className="text-sm font-semibold text-ink-700">{formatNumber(creditsBalance?.credits ?? 0)}</span>
         </button>
       </Card>
 

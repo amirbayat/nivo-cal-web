@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useDeleteFoodLog, useFoodLogs } from '@/queries/nivoCal.queries'
+import { useFormatNumber } from '@/hooks/useFormatNumber'
 import { Card } from '@/components/ui/Card'
 import { FullScreenSpinner } from '@/components/ui/FullScreenSpinner'
 import { AuthedImage } from '@/components/ui/AuthedImage'
@@ -9,6 +10,7 @@ export function LogsPage() {
   const { t, i18n } = useTranslation()
   const { data: logs, isPending } = useFoodLogs()
   const deleteLog = useDeleteFoodLog()
+  const formatNumber = useFormatNumber()
 
   if (isPending) return <FullScreenSpinner />
 
@@ -34,7 +36,7 @@ export function LogsPage() {
                 </p>
               </div>
               <span className="shrink-0 text-sm font-semibold text-ink-700">
-                {log.totalCalories} {t('common.kcal')}
+                {formatNumber(log.totalCalories)} {t('common.kcal')}
               </span>
               <button onClick={() => handleDelete(log.id)} className="shrink-0 rounded-full p-2 text-ink-300 hover:bg-rose-500/10 hover:text-rose-500">
                 <TrashIcon className="h-4 w-4" />

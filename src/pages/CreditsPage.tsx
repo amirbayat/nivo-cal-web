@@ -9,15 +9,17 @@ import {
   usePurchaseCreditPackage,
   type PaymentGatewayName,
 } from '@/queries/credits.queries'
+import { useFormatNumber } from '@/hooks/useFormatNumber'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { ChevronBackIcon, DiamondIcon } from '@/components/ui/icons'
+import { ChevronBackIcon, DiamondIcon, SparkleIcon } from '@/components/ui/icons'
 import type { CreditPackage } from '@/types/api'
 import { cn } from '@/lib/cn'
 
 export function CreditsPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const formatNumber = useFormatNumber()
 
   const { data: balance } = useCreditsBalance()
   const { data: packages, isPending: packagesPending } = useCreditPackages()
@@ -74,15 +76,24 @@ export function CreditsPage() {
       </div>
       <p className="text-sm text-ink-500">{t('credits.subtitle')}</p>
 
-      <Card className="flex items-center gap-3">
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-50 text-brand-600">
-          <DiamondIcon className="h-5 w-5" />
-        </span>
-        <div>
-          <p className="text-xs text-ink-500">{t('credits.currentBalance')}</p>
-          <p className="text-xl font-bold text-ink-900">{balance?.credits ?? 0}</p>
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-500 to-brand-700 p-5 text-white shadow-[0_16px_40px_rgba(15,122,87,0.35)]">
+        <span className="pointer-events-none absolute -top-10 -left-8 h-32 w-32 rounded-full bg-white/10" />
+        <span className="pointer-events-none absolute -bottom-10 -right-6 h-28 w-28 rounded-full bg-white/10" />
+        <SparkleIcon className="pointer-events-none absolute left-4 top-4 h-5 w-5 text-white/30" />
+
+        <div className="relative flex items-center gap-3">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
+            <DiamondIcon className="h-5 w-5" />
+          </span>
+          <div className="min-w-0">
+            <p className="text-xs text-white/70">{t('credits.currentBalance')}</p>
+            <p className="text-2xl font-extrabold tracking-tight">
+              {formatNumber(balance?.credits ?? 0)}
+              <span className="ms-1.5 text-sm font-medium text-white/70">{t('credits.creditsUnit')}</span>
+            </p>
+          </div>
         </div>
-      </Card>
+      </div>
 
       {purchaseError && <p className="text-center text-xs text-rose-500">{t('credits.purchaseError')}</p>}
 
@@ -97,9 +108,9 @@ export function CreditsPage() {
                   {pkg.isBestValue ? t('credits.bestValue') : t('credits.popular')}
                 </span>
               )}
-              <p className="text-xl font-bold text-ink-900">{pkg.credits}</p>
+              <p className="text-xl font-bold text-ink-900">{formatNumber(pkg.credits)}</p>
               <p className="text-xs text-ink-500">{t('credits.creditsUnit')}</p>
-              <p className="text-sm font-semibold text-ink-700">{pkg.priceToman.toLocaleString()} {t('common.toman')}</p>
+              <p className="text-sm font-semibold text-ink-700">{formatNumber(pkg.priceToman)} {t('common.toman')}</p>
               <Button size="md" onClick={() => onBuy(pkg)} loading={purchasingId === pkg.id}>
                 {t('credits.buyButton')}
               </Button>
@@ -119,7 +130,7 @@ export function CreditsPage() {
             placeholder={t('credits.customAmountPlaceholder')}
             className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
           />
-          {quote && <p className="text-xs text-ink-500">{quote.priceToman.toLocaleString()} {t('common.toman')}</p>}
+          {quote && <p className="text-xs text-ink-500">{formatNumber(quote.priceToman)} {t('common.toman')}</p>}
           <Button
             onClick={() => onBuy(customPackage, debouncedAmount)}
             disabled={debouncedAmount <= 0}

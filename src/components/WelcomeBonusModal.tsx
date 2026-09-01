@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Modal } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
 import { GiftIcon } from '@/components/ui/icons'
+import { useFormatNumber } from '@/hooks/useFormatNumber'
 
 interface WelcomeBonusModalProps {
   open: boolean
@@ -11,6 +12,7 @@ interface WelcomeBonusModalProps {
 
 export function WelcomeBonusModal({ open, credits, onClose }: WelcomeBonusModalProps) {
   const { t } = useTranslation()
+  const formatNumber = useFormatNumber()
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -18,7 +20,7 @@ export function WelcomeBonusModal({ open, credits, onClose }: WelcomeBonusModalP
         <span className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 text-brand-600">
           <GiftIcon className="h-8 w-8" />
         </span>
-        <p className="mt-3 text-4xl font-extrabold text-brand-600">{credits}</p>
+        <p className="mt-3 text-4xl font-extrabold text-brand-600">{formatNumber(credits)}</p>
         <h2 className="text-lg font-bold text-ink-900">{t('credits.welcomeBonusTitle')}</h2>
         <p className="text-sm text-ink-500">{t('credits.welcomeBonusSubtitle')}</p>
         <div className="mt-5 w-full">

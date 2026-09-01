@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { isAxiosError } from 'axios'
 import { useScanFood } from '@/queries/nivoCal.queries'
+import { useFormatNumber } from '@/hooks/useFormatNumber'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Modal } from '@/components/ui/Modal'
+import { AnalyzingOverlay } from '@/components/ui/AnalyzingOverlay'
 import { CameraIcon, ImageIcon } from '@/components/ui/icons'
 import { cn } from '@/lib/cn'
 
@@ -28,6 +30,7 @@ export function ScanPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const scanFood = useScanFood()
+  const formatNumber = useFormatNumber()
 
   const cameraInputRef = useRef<HTMLInputElement>(null)
   const galleryInputRef = useRef<HTMLInputElement>(null)
@@ -91,7 +94,7 @@ export function ScanPage() {
         )}
 
         <Card className="flex flex-col items-center gap-2 py-6">
-          <span className="text-3xl font-extrabold text-ink-900">{result.totalCalories}</span>
+          <span className="text-3xl font-extrabold text-ink-900">{formatNumber(result.totalCalories)}</span>
           <span className="text-xs text-ink-500">{t('scan.totalCalories')}</span>
           <span className={cn('mt-2 rounded-full px-3 py-1 text-xs font-semibold', HEALTH_COLOR[result.healthScore])}>
             {t(`scan.healthScore.${result.healthScore}`)}
@@ -103,7 +106,7 @@ export function ScanPage() {
             <Card key={i} className="p-3.5">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-ink-900">{item.nameFa}</span>
-                <span className="text-sm font-semibold text-ink-700">{item.calories} {t('common.kcal')}</span>
+                <span className="text-sm font-semibold text-ink-700">{formatNumber(item.calories)} {t('common.kcal')}</span>
               </div>
               <p className="mt-0.5 text-xs text-ink-500">{item.portionEstimate}</p>
             </Card>
@@ -155,7 +158,7 @@ export function ScanPage() {
           <Button size="lg" onClick={handleAnalyze} loading={scanFood.isPending}>
             {scanFood.isPending ? t('scan.analyzing') : t('scan.submit')}
           </Button>
-          <Button variant="ghost" onClick={reset}>{t('scan.retake')}</Button>
+          <Button variant="ghost" onClick={reset} disabled={scanFood.isPending}>{t('scan.retake')}</Button>
         </div>
       ) : (
         <div className="space-y-3">
@@ -190,6 +193,8 @@ export function ScanPage() {
           </div>
         </div>
       </Modal>
+
+      <AnalyzingOverlay visible={scanFood.isPending} />
     </div>
   )
 }

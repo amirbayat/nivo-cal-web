@@ -133,6 +133,12 @@ export const en: Dictionary = {
     notePlaceholder: 'Short note (optional)…',
     submit: 'Analyze',
     analyzing: 'Analyzing image…',
+    analyzingMessages: [
+      'Taking a look at your photo...',
+      'Identifying the food items...',
+      'Calculating calories & macros...',
+      'Almost there, hang tight...',
+    ],
     retake: 'Retake',
     resultTitle: 'Analysis result',
     totalCalories: 'Total calories',

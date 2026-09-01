@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSendOtp, useVerifyOtp } from '@/queries/auth.queries'
+import { useFormatNumber } from '@/hooks/useFormatNumber'
 import { Button } from '@/components/ui/Button'
 import { BrandMark } from '@/components/ui/BrandMark'
 import { WelcomeBonusModal } from '@/components/WelcomeBonusModal'
@@ -10,6 +11,7 @@ const RESEND_SECONDS = 60
 
 export function OtpPage() {
   const { t } = useTranslation()
+  const formatNumber = useFormatNumber()
   const navigate = useNavigate()
   const location = useLocation()
   const phone = (location.state as { phone?: string } | null)?.phone
@@ -90,7 +92,7 @@ export function OtpPage() {
             {t('otp.changeNumber')}
           </button>
           {secondsLeft > 0 ? (
-            <span>{t('otp.resendIn', { seconds: secondsLeft })}</span>
+            <span>{t('otp.resendIn', { seconds: formatNumber(secondsLeft) })}</span>
           ) : (
             <button type="button" onClick={handleResend} className="font-medium text-brand-600">
               {t('otp.resend')}

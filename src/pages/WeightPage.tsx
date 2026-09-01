@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDailySummary, useLogWeight } from '@/queries/nivoCal.queries'
+import { useFormatNumber } from '@/hooks/useFormatNumber'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { FullScreenSpinner } from '@/components/ui/FullScreenSpinner'
@@ -11,6 +12,7 @@ export function WeightPage() {
   const { data, isPending } = useDailySummary()
   const logWeight = useLogWeight()
   const [value, setValue] = useState('')
+  const formatNumber = useFormatNumber()
 
   if (isPending || !data) return <FullScreenSpinner />
 
@@ -29,12 +31,12 @@ export function WeightPage() {
       <h1 className="text-lg font-bold text-ink-900">{t('weight.title')}</h1>
 
       <Card className="flex flex-col items-center gap-1 py-8">
-        <span className="text-4xl font-extrabold text-ink-900">{current ?? '—'}</span>
+        <span className="text-4xl font-extrabold text-ink-900">{current !== undefined ? formatNumber(current) : '—'}</span>
         <span className="text-xs text-ink-500">{t('common.kg')}</span>
         {data.weightTrend.deltaKg !== 0 && (
           <span className={cn('mt-2 rounded-full px-3 py-1 text-xs font-semibold', data.weightTrend.deltaKg < 0 ? 'bg-brand-50 text-brand-700' : 'bg-amber-500/10 text-amber-600')}>
             {data.weightTrend.deltaKg > 0 ? '+' : ''}
-            {data.weightTrend.deltaKg} {t('common.kg')} · {t('weight.since', { days: data.weightTrend.periodDays })}
+            {formatNumber(data.weightTrend.deltaKg)} {t('common.kg')} · {t('weight.since', { days: formatNumber(data.weightTrend.periodDays) })}
           </span>
         )}
       </Card>
@@ -65,7 +67,7 @@ export function WeightPage() {
             {points.map(p => (
               <Card key={p.date} className="flex items-center justify-between p-3.5">
                 <span className="text-sm text-ink-500">{new Date(p.date).toLocaleDateString(i18n.language === 'fa' ? 'fa-IR' : 'en-US', { month: 'short', day: 'numeric' })}</span>
-                <span className="text-sm font-semibold text-ink-900">{p.weightKg} {t('common.kg')}</span>
+                <span className="text-sm font-semibold text-ink-900">{formatNumber(p.weightKg)} {t('common.kg')}</span>
               </Card>
             ))}
           </div>
