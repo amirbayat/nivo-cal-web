@@ -65,8 +65,6 @@ export function LoginPage() {
         <Button type="submit" size="lg" loading={sendOtp.isPending}>
           {sendOtp.isPending ? t('login.sending') : t('login.sendCode')}
         </Button>
-
-        <p className="pt-1 text-center text-xs leading-5 text-ink-500">{t('login.note')}</p>
       </form>
     </div>
   )

@@ -34,7 +34,6 @@ export const en: Dictionary = {
     sendCode: 'Send login code',
     sending: 'Sending…',
     errorInvalidPhone: 'Please enter a valid phone number',
-    note: 'Login here is separate from your main Nivo account — verify this number once.',
   },
   otp: {
     title: 'Enter the verification code',
