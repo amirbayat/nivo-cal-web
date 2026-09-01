@@ -185,6 +185,7 @@ export const fa = {
     callbackRefId: 'کد پیگیری',
     callbackBackToDashboard: 'بازگشت به خانه',
     callbackRetry: 'تلاش دوباره',
+    callbackReturnToApp: 'بازگشت به اپ',
   },
 }
 

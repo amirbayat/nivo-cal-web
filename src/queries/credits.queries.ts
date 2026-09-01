@@ -5,6 +5,10 @@ import type { CreditPackage, CreditsBalance } from '@/types/api'
 
 export type PaymentGatewayName = 'zarinpal' | 'vandar' | 'zibal'
 
+// نیوو کال فقط بسته‌های اختصاصی خودش رو می‌بینه، نه بسته‌های عمومی نیوو اصلی
+// (docs/PRD-nivo-cal-standalone-app.md بخش ۶ — CreditPackageScope)
+const SCOPE = 'NIVO_CAL'
+
 export function useCreditsBalance(enabled = true) {
   return useQuery({
     queryKey: keys.credits.balance(),
@@ -16,14 +20,15 @@ export function useCreditsBalance(enabled = true) {
 export function useCreditPackages() {
   return useQuery({
     queryKey: keys.credits.packages(),
-    queryFn: () => api.get<CreditPackage[]>('/v2/credits/packages').then(r => r.data),
+    queryFn: () => api.get<CreditPackage[]>('/v2/credits/packages', { params: { scope: SCOPE } }).then(r => r.data),
   })
 }
 
 export function useCreditQuote(credits: number, enabled: boolean) {
   return useQuery({
     queryKey: keys.credits.quote(credits),
-    queryFn: () => api.get<{ priceToman: number }>('/v2/credits/quote', { params: { credits } }).then(r => r.data),
+    queryFn: () =>
+      api.get<{ priceToman: number }>('/v2/credits/quote', { params: { credits, scope: SCOPE } }).then(r => r.data),
     enabled,
   })
 }

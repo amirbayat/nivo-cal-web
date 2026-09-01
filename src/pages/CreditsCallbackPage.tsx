@@ -18,6 +18,12 @@ export function CreditsCallbackPage() {
   const status = params.get('status')
   const refId = params.get('refId')
   const isSuccess = status === 'success'
+  // پرداخت از اپ موبایل نیوو کال شروع شده بود (purchase با source=app) — طبق همون
+  // مکانیزم withSourceParam که برای اپ اصلی نیوو ساخته شده. چون nivocal:// یک custom scheme
+  // است (نه App Link تایید‌شده)، از فرمت intent:// استفاده می‌کنیم که مرورگر اندروید مستقیم
+  // برنامه را با package name باز می‌کند، بدون نیاز به تایید دامنه.
+  const isFromApp = params.get('source') === 'app'
+  const returnToAppHref = 'intent://payment-callback#Intent;scheme=nivocal;package=ir.nivo.cal;end'
 
   useEffect(() => {
     if (isSuccess) {
