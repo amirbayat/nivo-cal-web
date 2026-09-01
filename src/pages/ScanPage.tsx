@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { isAxiosError } from 'axios'
 import { useScanFood } from '@/queries/nivoCal.queries'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
+import { Modal } from '@/components/ui/Modal'
 import { CameraIcon, ImageIcon } from '@/components/ui/icons'
 import { cn } from '@/lib/cn'
 
@@ -35,6 +37,7 @@ export function ScanPage() {
   const [note, setNote] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<Awaited<ReturnType<typeof scanFood.mutateAsync>> | null>(null)
+  const [insufficientCredits, setInsufficientCredits] = useState(false)
 
   useEffect(() => () => { if (previewUrl) URL.revokeObjectURL(previewUrl) }, [previewUrl])
 
@@ -62,7 +65,15 @@ export function ScanPage() {
         { image, note: note || undefined },
         {
           onSuccess: data => setResult(data),
-          onError: () => setError(t('scan.error')),
+          onError: err => {
+            // پیش‌چک اعتبار روی بک‌اند (nivo-cal.service.ts) با ۴۰۰ رد می‌شه اگه موجودی
+            // کافی نباشه — این تنها خطای ۴۰۰ روی این endpoint‌ه، پس با status تشخیص می‌دیم.
+            if (isAxiosError(err) && err.response?.status === 400) {
+              setInsufficientCredits(true)
+              return
+            }
+            setError(t('scan.error'))
+          },
         },
       )
     } catch {
@@ -164,6 +175,21 @@ export function ScanPage() {
           </button>
         </div>
       )}
+
+      <Modal open={insufficientCredits} onClose={() => setInsufficientCredits(false)}>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <h2 className="text-lg font-bold text-ink-900">{t('credits.insufficientTitle')}</h2>
+          <p className="text-sm text-ink-500">{t('credits.insufficientMessage')}</p>
+          <div className="mt-4 w-full space-y-2">
+            <Button size="lg" onClick={() => navigate('/credits')}>
+              {t('credits.insufficientBuyCta')}
+            </Button>
+            <Button variant="ghost" onClick={() => setInsufficientCredits(false)}>
+              {t('common.cancel')}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }

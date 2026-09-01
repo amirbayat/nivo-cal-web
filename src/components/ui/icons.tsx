@@ -59,6 +59,24 @@ export function ChevronBackIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+export function ChevronForwardIcon(props: SVGProps<SVGSVGElement>) {
+  // فلش «ادامه/بعدی» — هم‌جهت با ادامه‌ی خواندن در RTL، به چپ اشاره می‌کند
+  return (
+    <svg {...base(props)}>
+      <path d="M14.5 5.5 9 12l5.5 6.5" />
+    </svg>
+  )
+}
+
+export function SparkleIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M12 3.5 13.4 8.6 18.5 10l-5.1 1.4L12 16.5l-1.4-5.1L5.5 10l5.1-1.4L12 3.5Z" />
+      <path d="M18.5 15.5 19.1 17.4 21 18l-1.9.6-.6 1.9-.6-1.9-1.9-.6 1.9-.6.6-1.9Z" />
+    </svg>
+  )
+}
+
 export function TrashIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)}>
@@ -73,6 +91,29 @@ export function FlameIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)}>
       <path d="M12 3s4 3.5 4 7.5a4 4 0 1 1-8 0c0-1 .4-1.8 1-2.5.2 1 1 1.5 1.5 1 .6-.6.2-1.6-.2-2.5C9.6 5 12 3 12 3Z" />
+    </svg>
+  )
+}
+
+export function DiamondIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 9 8 4h8l4 5-8 11-8-11Z" />
+      <path d="M4 9h16" />
+      <path d="M9 4 12 9l-1.5 6" />
+      <path d="M15 4 12 9l1.5 6" />
+    </svg>
+  )
+}
+
+export function GiftIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="4" y="9" width="16" height="11" rx="1.5" />
+      <path d="M4 13h16" />
+      <path d="M12 9v11" />
+      <path d="M12 9c-1.5-3-3.5-4.5-5-3.5-1.2.9-.7 3.5 5 3.5Z" />
+      <path d="M12 9c1.5-3 3.5-4.5 5-3.5 1.2.9.7 3.5-5 3.5Z" />
     </svg>
   )
 }

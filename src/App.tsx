@@ -10,6 +10,8 @@ import { ScanPage } from '@/pages/ScanPage'
 import { LogsPage } from '@/pages/LogsPage'
 import { WeightPage } from '@/pages/WeightPage'
 import { ProfilePage } from '@/pages/ProfilePage'
+import { CreditsPage } from '@/pages/CreditsPage'
+import { CreditsCallbackPage } from '@/pages/CreditsCallbackPage'
 
 export function App() {
   return (
@@ -20,6 +22,9 @@ export function App() {
 
         <Route element={<RequireAuth />}>
           <Route path="/onboarding" element={<OnboardingPage />} />
+          {/* بک‌اند بعد از پرداخت همیشه به {origin}/payment ریدایرکت می‌کند (payments.service.ts) —
+              این مسیر ثابت است، مستقل از این‌که کاربر پروفایل تغذیه ساخته یا نه */}
+          <Route path="/payment" element={<CreditsCallbackPage />} />
 
           <Route element={<RequireProfile />}>
             <Route element={<AppShell />}>
@@ -28,6 +33,7 @@ export function App() {
               <Route path="/logs" element={<LogsPage />} />
               <Route path="/weight" element={<WeightPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/credits" element={<CreditsPage />} />
             </Route>
           </Route>
         </Route>

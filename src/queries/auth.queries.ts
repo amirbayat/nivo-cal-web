@@ -23,6 +23,8 @@ interface AuthTokens {
   accessToken: string
   refreshToken: string
   user: User
+  // فقط برای ثبت‌نام کاملاً جدید مقدار داره؛ برای لاگین‌های بعدی null است.
+  signupBonusCredits: number | null
 }
 
 export function useVerifyOtp() {

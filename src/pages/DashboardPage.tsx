@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useDailySummary } from '@/queries/nivoCal.queries'
+import { useCreditsBalance } from '@/queries/credits.queries'
 import { ProgressRing } from '@/components/ui/ProgressRing'
 import { MacroBar } from '@/components/ui/MacroBar'
 import { Card } from '@/components/ui/Card'
 import { FullScreenSpinner } from '@/components/ui/FullScreenSpinner'
 import { AuthedImage } from '@/components/ui/AuthedImage'
-import { FlameIcon } from '@/components/ui/icons'
+import { FlameIcon, DiamondIcon } from '@/components/ui/icons'
 import { cn } from '@/lib/cn'
 
 const WEEKLY_DOT_COLOR: Record<string, string> = {
@@ -20,6 +21,7 @@ export function DashboardPage() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const { data, isPending } = useDailySummary()
+  const { data: creditsBalance } = useCreditsBalance()
 
   if (isPending || !data) return <FullScreenSpinner />
 
@@ -33,6 +35,13 @@ export function DashboardPage() {
           <FlameIcon className="h-3.5 w-3.5" />
           {streakDays > 0 ? t('dashboard.streak', { count: streakDays }) : t('dashboard.streakZero')}
         </div>
+        <button
+          onClick={() => navigate('/credits')}
+          className="flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-semibold text-brand-700"
+        >
+          <DiamondIcon className="h-3.5 w-3.5" />
+          {creditsBalance?.credits ?? 0} {t('credits.creditsUnit')}
+        </button>
       </div>
 
       <Card className="flex flex-col items-center gap-4 py-8">

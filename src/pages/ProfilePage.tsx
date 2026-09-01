@@ -2,16 +2,18 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/auth.store'
 import { useLogout } from '@/queries/auth.queries'
+import { useCreditsBalance } from '@/queries/credits.queries'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
-import { UserIcon } from '@/components/ui/icons'
+import { UserIcon, DiamondIcon } from '@/components/ui/icons'
 
 export function ProfilePage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const user = useAuthStore(s => s.user)
   const logout = useLogout()
+  const { data: creditsBalance } = useCreditsBalance()
 
   function handleLogout() {
     if (window.confirm(t('profile.logoutConfirm'))) logout.mutate()
@@ -34,6 +36,16 @@ export function ProfilePage() {
       <Card className="flex items-center justify-between">
         <span className="text-sm font-medium text-ink-900">{t('profile.language')}</span>
         <LanguageToggle />
+      </Card>
+
+      <Card className="p-0">
+        <button onClick={() => navigate('/credits')} className="flex w-full items-center gap-3 px-5 py-4 text-start">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-brand-600">
+            <DiamondIcon className="h-4.5 w-4.5" />
+          </span>
+          <span className="flex-1 text-sm font-medium text-ink-900">{t('credits.currentBalance')}</span>
+          <span className="text-sm font-semibold text-ink-700">{creditsBalance?.credits ?? 0}</span>
+        </button>
       </Card>
 
       <Card className="p-0">

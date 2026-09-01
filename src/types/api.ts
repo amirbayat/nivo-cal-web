@@ -6,6 +6,22 @@ export interface User {
   isActive: boolean
 }
 
+export interface CreditsBalance {
+  credits: number
+  balanceToman: number
+  tomanPerCredit: number
+}
+
+export interface CreditPackage {
+  id: string
+  credits: number
+  priceToman: number
+  discountPercent: number
+  isPopular: boolean
+  isBestValue: boolean
+  isCustomAmount: boolean
+}
+
 export type NivoCalGender = 'MALE' | 'FEMALE'
 export type NivoCalActivityLevel = 'SEDENTARY' | 'LIGHT' | 'ACTIVE' | 'VERY_ACTIVE'
 export type NivoCalGoal = 'LOSE_WEIGHT' | 'MAINTAIN' | 'GAIN_WEIGHT'

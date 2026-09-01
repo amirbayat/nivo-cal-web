@@ -5,6 +5,7 @@ import { useSendOtp } from '@/queries/auth.queries'
 import { Button } from '@/components/ui/Button'
 import { BrandMark } from '@/components/ui/BrandMark'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
+import { SparkleIcon } from '@/components/ui/icons'
 
 const IRAN_PHONE_RE = /^09\d{9}$/
 
@@ -37,6 +38,11 @@ export function LoginPage() {
         <div>
           <h1 className="text-xl font-bold text-ink-900">{t('login.title')}</h1>
           <p className="mt-1.5 text-sm text-ink-500">{t('login.subtitle')}</p>
+        </div>
+
+        <div className="inline-flex max-w-sm items-start gap-1.5 rounded-2xl bg-brand-50 px-3.5 py-2 text-start text-xs font-medium leading-5 text-brand-700">
+          <SparkleIcon className="mt-0.5 size-3.5 shrink-0" />
+          <span>{t('login.aiTagline')}</span>
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useSendOtp, useVerifyOtp } from '@/queries/auth.queries'
 import { Button } from '@/components/ui/Button'
 import { BrandMark } from '@/components/ui/BrandMark'
+import { WelcomeBonusModal } from '@/components/WelcomeBonusModal'
 
 const RESEND_SECONDS = 60
 
@@ -18,6 +19,7 @@ export function OtpPage() {
   const [code, setCode] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [secondsLeft, setSecondsLeft] = useState(RESEND_SECONDS)
+  const [welcomeBonusCredits, setWelcomeBonusCredits] = useState<number | null>(null)
 
   useEffect(() => {
     if (!phone) {
@@ -36,7 +38,13 @@ export function OtpPage() {
     verifyOtp.mutate(
       { phone: phone!, code },
       {
-        onSuccess: () => navigate('/', { replace: true }),
+        onSuccess: data => {
+          if (data.signupBonusCredits) {
+            setWelcomeBonusCredits(data.signupBonusCredits)
+          } else {
+            navigate('/', { replace: true })
+          }
+        },
         onError: () => setError(t('otp.errorInvalidCode')),
       },
     )
@@ -90,6 +98,12 @@ export function OtpPage() {
           )}
         </div>
       </form>
+
+      <WelcomeBonusModal
+        open={welcomeBonusCredits !== null}
+        credits={welcomeBonusCredits ?? 0}
+        onClose={() => navigate('/', { replace: true })}
+      />
     </div>
   )
 }
